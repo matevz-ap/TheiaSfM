@@ -222,9 +222,7 @@ void halfsample_image(const RowMatrixXf& src, RowMatrixXf& dst) {
 
   // Do the whole resampling in one pass by using neighboring values. First, we
   // compute the borders.
-  // const double x_kernel_size = static_cast<double>(src.cols()) / dst.cols();
   const int x_kernel_size = static_cast<double>(src.cols()) / dst.cols();
-  // const double y_kernel_size = static_cast<double>(src.rows()) / dst.rows();
   const int y_kernel_size = static_cast<double>(src.rows()) / dst.rows();
 
   // Do simple linear interpolation.
@@ -239,9 +237,7 @@ void halfsample_image(const RowMatrixXf& src, RowMatrixXf& dst) {
     return;
   }
 
-  // const double x_kernel_clamped_size = static_cast<int>(ceil(x_kernel_size));
   const int x_kernel_clamped_size = static_cast<int>(ceil(static_cast<double>(src.cols()) / dst.cols()));
-  // const double y_kernel_clamped_size = static_cast<int>(ceil(y_kernel_size));
   const int y_kernel_clamped_size = static_cast<int>(ceil(static_cast<double>(src.rows()) / dst.rows()));
 
   // Set up precomputed factor matrices.

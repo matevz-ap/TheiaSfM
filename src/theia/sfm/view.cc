@@ -34,6 +34,7 @@
 
 #include "theia/sfm/view.h"
 
+#include <cassert>
 #include <string>
 #include <unordered_set>
 #include <unordered_map>
@@ -96,12 +97,24 @@ const Feature* View::GetFeature(const TrackId track_id) const {
   return FindOrNull(features_, track_id);
 }
 
+const TrackId* View::GetTrackId(const Feature& feature) const {
+  return FindOrNull(tracks_, feature);
+}
+
 void View::AddFeature(const TrackId track_id, const Feature& feature) {
   features_[track_id] = feature;
+  tracks_[feature] = track_id;
+  assert(features_.size() == tracks_.size());
 }
 
 bool View::RemoveFeature(const TrackId track_id) {
-  return features_.erase(track_id) > 0;
+  const Feature feature = FindOrDie(features_, track_id);
+
+  int result_features = features_.erase(track_id);
+  int result_tracks = tracks_.erase(feature);
+  assert(features_.size() == tracks_.size());
+
+  return (result_features > 0) && (result_tracks > 0);
 }
 
 }  // namespace theia

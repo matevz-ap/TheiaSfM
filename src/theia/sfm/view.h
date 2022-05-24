@@ -48,6 +48,7 @@
 #include "theia/sfm/camera_intrinsics_prior.h"
 #include "theia/sfm/feature.h"
 #include "theia/sfm/types.h"
+#include "theia/util/hash.h"
 
 namespace theia {
 
@@ -79,6 +80,7 @@ class View {
   std::vector<TrackId> TrackIds() const;
 
   const Feature* GetFeature(const TrackId track_id) const;
+  const TrackId* GetTrackId(const Feature& feature) const;
 
   void AddFeature(const TrackId track_id, const Feature& feature);
 
@@ -90,7 +92,7 @@ class View {
   friend class cereal::access;
   template <class Archive>
   void serialize(Archive& ar, const std::uint32_t version) {  // NOLINT
-    ar(name_, is_estimated_, camera_, camera_intrinsics_prior_, features_);
+    ar(name_, is_estimated_, camera_, camera_intrinsics_prior_, features_, tracks_);
   }
 
   std::string name_;
@@ -98,6 +100,7 @@ class View {
   class Camera camera_;
   struct CameraIntrinsicsPrior camera_intrinsics_prior_;
   std::unordered_map<TrackId, Feature> features_;
+  std::unordered_map<Feature, TrackId, std::hash<Feature>> tracks_;
 };
 
 }  // namespace theia

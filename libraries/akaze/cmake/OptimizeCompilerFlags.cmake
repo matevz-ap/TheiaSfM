@@ -95,22 +95,22 @@ macro(OptimizeCompilerFlags)
     endif ()
   endif (CMAKE_BUILD_TYPE STREQUAL "Release")
 
-  # Set c++ standard to c++11
+  # Set c++ standard to c++14
   if (NOT MSVC)
     include(CheckCXXCompilerFlag)
-    check_cxx_compiler_flag("-std=c++11" COMPILER_HAS_CXX11_FLAG)
-    if (COMPILER_HAS_CXX11_FLAG)
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    check_cxx_compiler_flag("-std=c++14" COMPILER_HAS_CXX14_FLAG)
+    if (COMPILER_HAS_CXX14_FLAG)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
       if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 	# Mac OS X before Mavericks uses libstdc++ by default but does not support
-	# c++11. Force it to use libc++.
+	# c++14. Force it to use libc++.
 	if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
 	  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 	endif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
       endif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    else (COMPILER_HAS_CXX11_FLAG)
-      message(FATAL_ERROR "A compiler with C++11 support is required for Akaze.")
-    endif (COMPILER_HAS_CXX11_FLAG)
+    else (COMPILER_HAS_CXX14_FLAG)
+      message(FATAL_ERROR "A compiler with C++14 support is required for Akaze.")
+    endif (COMPILER_HAS_CXX14_FLAG)
   endif (NOT MSVC)
 
   set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${AKAZE_CXX_FLAGS}")
